@@ -1,0 +1,50 @@
+\\-----------MANIFEST------------//
+
+
+<application android:hardwareAccelerated="true">
+    <!-- For activities that use ads, hardwareAcceleration should be true. -->
+    <activity android:hardwareAccelerated="true" />
+    <!-- For activities that don't use ads, hardwareAcceleration can be false. -->
+    <activity android:hardwareAccelerated="false" />
+</application>
+
+
+//-----------XML---------//
+
+
+<com.google.android.gms.ads.AdView
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/banner_ad_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_alignParentBottom="true"
+    ads:adSize="BANNER"
+    ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+
+
+
+//---------INITIALIZE----------//
+
+new Thread(
+            () -> {
+              // Initialize the Google Mobile Ads SDK on a background thread.
+              MobileAds.initialize(this, initializationStatus -> {});
+            })
+        .start();
+
+
+//-----------JAVA-----------//
+
+// Create a new ad view.
+adView = new AdView(this);
+adView.setAdUnitId("AD_UNIT_ID");
+adView.setAdSize(getAdSize());
+
+// Replace ad container with new ad view.
+adContainerView.removeAllViews();
+adContainerView.addView(adView);
+
+// Start loading the ad in the background.
+AdRequest adRequest = new AdRequest.Builder().build();
+adView.loadAd(adRequest);
