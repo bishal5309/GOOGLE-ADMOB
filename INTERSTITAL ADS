@@ -1,4 +1,8 @@
- private InterstitialAd mInterstitialAd;
+gradle.app.project
+
+implementation("com.google.android.gms:play-services-ads:23.3.0")
+
+private InterstitialAd mInterstitialAd;
 
 //----------java----------//
 
