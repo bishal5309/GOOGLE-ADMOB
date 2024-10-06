@@ -1,74 +1,55 @@
+gradle.app.project
+
 implementation("com.google.android.gms:play-services-ads:23.3.0")
 
-\\-----------MANIFEST------------//
+//------xml--------//
 
-
-<application android:hardwareAccelerated="true">
-    <!-- For activities that use ads, hardwareAcceleration should be true. -->
-    <activity android:hardwareAccelerated="true" />
-    <!-- For activities that don't use ads, hardwareAcceleration can be false. -->
-    <activity android:hardwareAccelerated="false" />
-</application>
-
-
-//-----------XML---------//
-
-
-<com.google.android.gms.ads.AdView
-        xmlns:ads="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/madview"
+<LinearLayout
+        android:id="@+id/adContainerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+
+    </LinearLayout>
 
 
+//----------------java-----------------//
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
 
+        MobileAds.initialize(this, initializationStatus -> {});
 
+    // Initialize the ad container view
+        LinearLayout adContainerView = findViewById(R.id.adContainerView);
 
-//-----------JAVA-----------//
+    // Create a new ad view and set the ad unit ID and size
+        AdView adView = new AdView(this);
+        adView.setAdUnitId("ca-app-pub-3940256099942544/9214589741"); // Test Ad Unit ID
+        adView.setAdSize(AdSize.BANNER);
 
-AdView madview;
-madview = findViewById(R.id.madview);
+    // Add the ad view to the container and load the ad
+        adContainerView.removeAllViews();
+        adContainerView.addView(adView);
 
-.....................OLD WAYES...........
-
- new Thread(
-                () -> {
-                    // Initialize the Google Mobile Ads SDK on a background thread.
-                    MobileAds.initialize(this, initializationStatus -> {});
-                })
-                .start();
-
-        // Create a new ad view.
-        madview = findViewById(R.id.madview);
-
-        // Start loading the ad in the background.
+    // Start loading the ad
         AdRequest adRequest = new AdRequest.Builder().build();
-        madview.loadAd(adRequest);................
+        adView.loadAd(adRequest);
 
-//---------INITIALIZE----------//
+        adView.setAdListener(new AdListener() {
+            @Override
+            public void onAdClicked() {
+                super.onAdClicked();
+                Toast.makeText(MainActivity.this, "Ad Clicked", Toast.LENGTH_SHORT).show();
+            }
 
-new Thread(
-            () -> {
-              // Initialize the Google Mobile Ads SDK on a background thread.
-              MobileAds.initialize(this, initializationStatus -> {});
-            })
-        .start();
-
-
-// Create a new ad view.
-madView = new AdView(this);
-madView.setAdUnitId("AD_UNIT_ID");
-madView.setAdSize(getAdSize());
-
-// Replace ad container with new ad view.
-adContainerView.removeAllViews();
-adContainerView.addView(madView);
-
-// Start loading the ad in the background.
-AdRequest adRequest = new AdRequest.Builder().build();
-madView.loadAd(adRequest);
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                Toast.makeText(MainActivity.this, "Ad Loaded", Toast.LENGTH_SHORT).show();
+            }
+        });
