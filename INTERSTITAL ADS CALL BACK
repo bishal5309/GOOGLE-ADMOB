@@ -60,3 +60,11 @@ loadFullScrenAds();
                     }
                 });
     }
+
+-->> SET YOUR CLICK -->>
+
+if (mInterstitialAd != null) {
+                mInterstitialAd.show(MainActivity.this);
+            } else {
+                Log.d("TAG", "The interstitial ad wasn't ready yet.");
+            }
