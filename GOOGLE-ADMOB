@@ -59,14 +59,14 @@ new Thread(
 
 
 // Create a new ad view.
-adView = new AdView(this);
-adView.setAdUnitId("AD_UNIT_ID");
-adView.setAdSize(getAdSize());
+madView = new AdView(this);
+madView.setAdUnitId("AD_UNIT_ID");
+madView.setAdSize(getAdSize());
 
 // Replace ad container with new ad view.
 adContainerView.removeAllViews();
-adContainerView.addView(adView);
+adContainerView.addView(madView);
 
 // Start loading the ad in the background.
 AdRequest adRequest = new AdRequest.Builder().build();
-adView.loadAd(adRequest);
+madView.loadAd(adRequest);
