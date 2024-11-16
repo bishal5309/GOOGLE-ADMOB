@@ -16,40 +16,20 @@ implementation("com.google.android.gms:play-services-ads:23.3.0")
 
 //----------------java-----------------//
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+   MobileAds.initialize(this, initializationStatus -> {});
 
-        MobileAds.initialize(this, initializationStatus -> {});
+        // Initialize the ad container view
+        adContainerView = findViewById(R.id.adContainerView);
 
-    // Initialize the ad container view
-        LinearLayout adContainerView = findViewById(R.id.adContainerView);
-
-    // Create a new ad view and set the ad unit ID and size
+        // Create a new ad view and set the ad unit ID and size
         AdView adView = new AdView(this);
         adView.setAdUnitId("ca-app-pub-3940256099942544/9214589741"); // Test Ad Unit ID
         adView.setAdSize(AdSize.BANNER);
 
-    // Add the ad view to the container and load the ad
+        // Add the ad view to the container and load the ad
         adContainerView.removeAllViews();
         adContainerView.addView(adView);
 
-    // Start loading the ad
+        // Start loading the ad
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
-
-        adView.setAdListener(new AdListener() {
-            @Override
-            public void onAdClicked() {
-                super.onAdClicked();
-                Toast.makeText(MainActivity.this, "Ad Clicked", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onAdLoaded() {
-                super.onAdLoaded();
-                Toast.makeText(MainActivity.this, "Ad Loaded", Toast.LENGTH_SHORT).show();
-            }
-        });
