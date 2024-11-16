@@ -2,6 +2,14 @@ gradle.app.project
 
 implementation("com.google.android.gms:play-services-ads:23.3.0")
 
+
+//------manifest---------//
+
+ <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
+
 //------xml--------//
 
 <LinearLayout
